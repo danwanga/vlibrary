@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-
 /* An example React component */
 class Main extends Component {
     render() {
         return (
             <div>
-                <h3>All Books</h3>
+                <h3>All Products</h3>
             </div>
         );
     }
