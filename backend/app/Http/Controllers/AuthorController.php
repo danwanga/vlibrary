@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use App\Http\Resources\AuthorResource;
+use Illuminate\Support\Facades\Log;
 
 class AuthorController extends Controller
 {
@@ -33,6 +34,8 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
+        Log::debug('Request data: ' . print_r($request->all(), true));
+
         $validatedData = $request->validate([
             'name' => 'required|string',
             'gender' => 'required|string',

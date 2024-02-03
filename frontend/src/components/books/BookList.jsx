@@ -12,10 +12,9 @@ const BookList = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get("/api/books");
+      const response = await axios.get("/books");
 
-      console.log(response.data);
-      setBooks(response.data); // Assuming the response is an array of books
+      setBooks(response.data["data"]); // Assuming the response is an array of books
       setLoading(false);
     } catch (error) {
       console.error("Error fetching books:", error);
@@ -23,8 +22,11 @@ const BookList = () => {
     }
   };
 
+  // console.log(books);
+  // books.data.map((book) => console.log(book.name));
+
   return (
-    <div>
+    <div className="list-table">
       <h2>Book List</h2>
       {loading ? (
         <p>Loading books...</p>
@@ -32,7 +34,8 @@ const BookList = () => {
         <ul>
           {books.map((book) => (
             <li key={book.id}>
-              <strong>{book.name}</strong> by {book.author.name}
+              {book.name}
+              {/* by {book.author.name} */}
             </li>
           ))}
         </ul>

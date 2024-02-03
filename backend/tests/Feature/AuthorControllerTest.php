@@ -26,7 +26,7 @@ class AuthorControllerTest extends TestCase
     {
         $author = Author::factory()->create();
 
-        $response = $this->get("/api/authors/{$author->id}");
+        $response = $this->get("/api/author/{$author->id}");
 
         Log::debug("/api/authors/{$author->id}");
 
@@ -47,7 +47,7 @@ class AuthorControllerTest extends TestCase
             'genre' => $this->faker->word,
         ];
 
-        $response = $this->post('/api/authors', $data);
+        $response = $this->post('/api/author', $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('authors', $data);
@@ -58,7 +58,7 @@ class AuthorControllerTest extends TestCase
         $author = Author::factory()->create();
         $data = ['name' => 'Updated Name'];
 
-        $response = $this->put("/api/authors/{$author->id}", $data);
+        $response = $this->put("/api/author/{$author->id}", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('authors', [

@@ -5,11 +5,10 @@ const AddBookForm = ({ onAddBook }) => {
   const [newBook, setNewBook] = useState({
     name: "",
     isbn: "",
-    authorId: "",
+    author_id: "",
   });
 
   const [authors, setAuthors] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch the list of authors when the component mounts
@@ -17,14 +16,8 @@ const AddBookForm = ({ onAddBook }) => {
   }, []);
 
   const fetchAuthors = async () => {
-    try {
-      const response = await axios.get("/authors");
-      setAuthors(response.data); // Assuming the response is an array of authors
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching authors:", error);
-      setLoading(false);
-    }
+    const response = await axios.get("/authors");
+    setAuthors(response.data["data"]); // Assuming the response is an array of authors
   };
 
   const handleInputChange = (e) => {
@@ -38,14 +31,14 @@ const AddBookForm = ({ onAddBook }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Validate the form fields before submitting
-    if (!newBook.name || !newBook.isbn || !newBook.authorId) {
+    if (!newBook.name || !newBook.isbn || !newBook.author_id) {
       alert("Please fill in all the fields");
       return;
     }
 
     try {
       // Send a POST request to the /api/book endpoint with the new book data
-      const response = await axios.post("/api/book", newBook);
+      const response = await axios.post("/book", newBook);
 
       if (!response.data) {
         throw new Error("Failed to add book");
@@ -58,7 +51,7 @@ const AddBookForm = ({ onAddBook }) => {
       setNewBook({
         name: "",
         isbn: "",
-        authorId: "",
+        author_id: "",
       });
     } catch (error) {
       console.error("Error adding book:", error);
@@ -69,49 +62,46 @@ const AddBookForm = ({ onAddBook }) => {
   return (
     <div>
       <h2>Add New Book</h2>
-      {loading ? (
-        <p>Loading authors...</p>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <label>
-            Book Name:
-            <input
-              type="text"
-              name="name"
-              value={newBook.name}
-              onChange={handleInputChange}
-            />
-          </label>
-          <br />
-          <label>
-            ISBN:
-            <input
-              type="text"
-              name="isbn"
-              value={newBook.isbn}
-              onChange={handleInputChange}
-            />
-          </label>
-          <br />
-          <label>
-            Author:
-            <select
-              name="authorId"
-              value={newBook.authorId}
-              onChange={handleInputChange}
-            >
-              <option value="">Select Author</option>
-              {authors.map((author) => (
-                <option key={author.id} value={author.id}>
-                  {author.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <br />
-          <button type="submit">Add Book</button>
-        </form>
-      )}
+
+      <form onSubmit={handleSubmit}>
+        <label>
+          Book Name:
+          <input
+            type="text"
+            name="name"
+            value={newBook.name}
+            onChange={handleInputChange}
+          />
+        </label>
+        <br />
+        <label>
+          ISBN:
+          <input
+            type="text"
+            name="isbn"
+            value={newBook.isbn}
+            onChange={handleInputChange}
+          />
+        </label>
+        <br />
+        <label>
+          Author:
+          <select
+            name="author_id"
+            value={newBook.author_id}
+            onChange={handleInputChange}
+          >
+            <option value="">Select Author</option>
+            {authors.map((author) => (
+              <option key={author.id} value={author.id}>
+                {author.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <button type="submit">Add Book</button>
+      </form>
     </div>
   );
 };

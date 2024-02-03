@@ -26,7 +26,7 @@ class BookControllerTest extends TestCase
     {
         $book = Book::factory()->create();
 
-        $response = $this->get("/api/books/{$book->id}");
+        $response = $this->get("/api/book/{$book->id}");
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
@@ -44,7 +44,7 @@ class BookControllerTest extends TestCase
             'author_id' => $author->id,
         ];
 
-        $response = $this->post('/api/books', $data);
+        $response = $this->post('/api/book', $data);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('books', $data);
@@ -55,12 +55,22 @@ class BookControllerTest extends TestCase
         $book = Book::factory()->create();
         $data = ['name' => 'Updated Name'];
 
-        $response = $this->put("/api/books/{$book->id}", $data);
+        $response = $this->put("/api/book/{$book->id}", $data);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('books', [
             'id' => $book->id,
             'name' => 'Updated Name',
         ]);
+    }
+
+    public function testDelete()
+    {
+        $book = Book::factory()->create();
+
+        $response = $this->delete("/api/book/{$book->id}");
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('books', ['id' => $book->id]);
     }
 }

@@ -14,9 +14,7 @@ const AuthorList = () => {
     try {
       const response = await axios.get("/authors");
 
-      console.log(response.data);
-
-      setAuthors(response.data); // Assuming the response is an array of authors
+      setAuthors(response.data["data"]); // Assuming the response is an array of authors
       setLoading(false);
     } catch (error) {
       console.error("Error fetching books:", error);
@@ -25,7 +23,7 @@ const AuthorList = () => {
   };
 
   return (
-    <div>
+    <div className="list-table">
       <h2>All Authors</h2>
       {loading ? (
         <p>Loading authors...</p>

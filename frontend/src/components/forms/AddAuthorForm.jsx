@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "../../axios";
 
 const AddAuthorForm = ({ onAddAuthor }) => {
   const [newAuthor, setNewAuthor] = useState({
@@ -33,22 +34,14 @@ const AddAuthorForm = ({ onAddAuthor }) => {
 
     try {
       // Send a POST request to the /api/author endpoint with the new author data
-      const response = await fetch("/api/author", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newAuthor),
-      });
+      const response = await axios.post("/author", newAuthor);
 
-      if (!response.ok) {
-        throw new Error(`Failed to add author: ${response.statusText}`);
+      if (!response.data) {
+        throw new Error("Failed to add author");
       }
 
-      const addedAuthor = await response.json();
-
       // Pass the added author data to the parent component
-      onAddAuthor(addedAuthor);
+      onAddAuthor(response.data);
 
       // Reset the form after successful submission
       setNewAuthor({
