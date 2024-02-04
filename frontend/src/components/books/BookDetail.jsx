@@ -7,8 +7,6 @@ const BookDetail = () => {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
 
-  console.log(book);
-
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
@@ -45,7 +43,7 @@ const BookDetail = () => {
                 <span className="detail-item">ISBN:</span> {book.isbn}
               </li>
               <li>
-                <span className="detail-item">Author:</span>{" "}
+                <span className="detail-item">Author:</span>
                 {book && book.author ? book.author.name : "(Not Set)"}
               </li>
             </ul>

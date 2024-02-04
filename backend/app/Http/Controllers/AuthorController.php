@@ -15,6 +15,7 @@ class AuthorController extends Controller
     public function index()
     {
         $authors = Author::all();
+        $authors = $authors->sortByDesc('created_at');
 
         return AuthorResource::collection($authors);
     }

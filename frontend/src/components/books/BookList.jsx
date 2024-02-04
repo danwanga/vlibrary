@@ -38,10 +38,36 @@ const BookList = () => {
               key={book.id}
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <span>{book.name}</span>
-              <Link to={`/book/${book.id}`} className="list-detail-btn">
-                Details
-              </Link>
+              <span>
+                {book.name}
+                <strong
+                  style={{
+                    fontSize: "12px",
+                    fontStyle: "italic",
+                    paddingLeft: "5px",
+                  }}
+                >
+                  by: {book && book.author ? book.author.name : "(Not Set)"}
+                </strong>
+              </span>
+
+              <div
+                style={{
+                  width: "10%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Link to={`/book/${book.id}`} className="list-detail-btn">
+                  Details
+                </Link>
+                {/* <Link
+                  to={`/update-book/${book.id}`}
+                  className="list-detail-btn"
+                >
+                  Edit
+                </Link> */}
+              </div>
             </li>
           ))}
         </ul>

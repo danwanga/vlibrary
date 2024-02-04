@@ -1,21 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "../../axios";
 
-const AddBookForm = ({ onAddBook }) => {
+const EditBookForm = () => {
   const [newBook, setNewBook] = useState({
     name: "",
     isbn: "",
     author_id: "",
   });
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  const { id } = useParams();
   const [authors, setAuthors] = useState([]);
   const navigate = useNavigate();
+
+  console.log(id);
 
   useEffect(() => {
     // Fetch the list of authors when the component mounts
     fetchAuthors();
-  }, []);
+
+    const fetchBookDetails = async () => {
+      try {
+        const response = await axios.get(`/book/${id}`);
+        setBook(response.data["data"]);
+
+        console.log(response.data["data"]);
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching book details:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchBookDetails();
+
+    setNewBook({
+      name: book.name || "",
+      isbn: book.isbn || "",
+      author_id: book.author_id || "",
+    });
+  }, [id]);
 
   const fetchAuthors = async () => {
     const response = await axios.get("/authors");
@@ -39,31 +66,27 @@ const AddBookForm = ({ onAddBook }) => {
     }
 
     try {
-      // Send a POST request to the /api/book endpoint with the new book data
-      const response = await axios.post("/book", newBook);
+      // Determine whether to send a POST or PUT request based on edit mode
+      const apiEndpoint = `/book/${id}`;
+
+      // Send a POST or PUT request to the appropriate endpoint with the new book data
+      const response = await axios.post(apiEndpoint, newBook);
 
       if (!response.data) {
-        throw new Error("Failed to add book");
+        throw new Error("Failed to save book details");
       }
 
       // Redirect to the /books route
       navigate("/books");
-
-      // Reset the form after successful submission
-      setNewBook({
-        name: "",
-        isbn: "",
-        author_id: "",
-      });
     } catch (error) {
-      console.error("Error adding book:", error);
-      alert("Failed to add book. Please try again.");
+      console.error("Error saving book details:", error);
+      alert("Failed to save book details. Please try again.");
     }
   };
 
   return (
     <div>
-      <h2>Add New Book</h2>
+      <h2>Edit Book</h2>
 
       <form onSubmit={handleSubmit}>
         <label>
@@ -102,10 +125,10 @@ const AddBookForm = ({ onAddBook }) => {
           </select>
         </label>
         <br />
-        <button type="submit">Add Book</button>
+        <button type="submit">Save Changes</button>
       </form>
     </div>
   );
 };
 
-export default AddBookForm;
+export default EditBookForm;

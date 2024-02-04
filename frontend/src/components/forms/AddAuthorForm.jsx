@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "../../axios";
 
 const AddAuthorForm = ({ onAddAuthor }) => {
@@ -9,6 +10,7 @@ const AddAuthorForm = ({ onAddAuthor }) => {
     country: "",
     genre: "",
   });
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,8 +42,11 @@ const AddAuthorForm = ({ onAddAuthor }) => {
         throw new Error("Failed to add author");
       }
 
-      // Pass the added author data to the parent component
-      onAddAuthor(response.data);
+      // Redirect to the /books route
+      navigate("/authors");
+
+      // Trigger the success message
+      onAddAuthor(newAuthor);
 
       // Reset the form after successful submission
       setNewAuthor({

@@ -15,6 +15,10 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::all();
+        // connect with the author
+        $books->load('author');
+        // order be descending order
+        $books = $books->sortByDesc('created_at');
 
         return BookResource::collection($books);
     }
@@ -50,7 +54,7 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $book = Book::findOrFail($id);
+        $book = Book::with('author')->findOrFail($id);
 
         $validatedData = $request->validate([
             'name' => 'string',

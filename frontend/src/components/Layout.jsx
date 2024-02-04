@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Layout = ({ children }) => {
+const Layout = ({ message, children }) => {
   return (
     <div className="container">
       <header>
@@ -28,7 +28,10 @@ const Layout = ({ children }) => {
         </ul>
       </nav>
 
-      <main>{children}</main>
+      <main>
+        {message && <div className="message">{message}</div>}
+        {children}
+      </main>
     </div>
   );
 };
