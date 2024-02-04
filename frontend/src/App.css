@@ -123,3 +123,29 @@ button:hover {
   display: table-cell;
   padding: 5px;
 }
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2px; /* Adjust the gap between squares */
+}
+
+.grid-item {
+  border: 1px solid #333; /* Border color */
+  box-sizing: border-box;
+}
+
+.list-detail-btn {
+  font-weight: normal;
+  font-size: 14px;
+  border: 1px solid #2c3e50;
+  border-radius: 8px;
+  padding: 8px;
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+.detail-item {
+  width: 40%;
+}

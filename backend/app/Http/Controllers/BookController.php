@@ -24,7 +24,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::findOrFail($id);
+        $book = Book::with('author')->findOrFail($id);
 
         return new BookResource($book);
     }

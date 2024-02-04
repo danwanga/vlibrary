@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "../../axios";
 
 const AuthorList = () => {
@@ -30,7 +31,15 @@ const AuthorList = () => {
       ) : (
         <ul>
           {authors.map((authors) => (
-            <li key={authors.id}>{authors.name}</li>
+            <li
+              key={authors.id}
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <span>{authors.name}</span>
+              <Link to={`/author/${authors.id}`} className="list-detail-btn">
+                Details
+              </Link>
+            </li>
           ))}
         </ul>
       )}
