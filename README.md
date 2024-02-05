@@ -8,8 +8,8 @@ You need to have all the laravel dependencies and npm/yarn to install this app. 
 
 ## Laravel Back end:
 
-Setup your DB, .env file, take care of migration and seeding. Once you are done with that, run: php artisan serve. The api is accessible at http://localhost:8000/api/books
+Setup your DB, .env file, take care of migration (php artisan migrate) and seeding (php artisan db:seed). Once you are done with that, run: `php artisan serve` inside the backend directory. The api is accessible at http://localhost:8000/api
 
 ## React front-end:
 
-To make React work, run npm install && npm run dev inside the frontend directory. Now, head over to http://localhost:3000/
+To make React work, run `npm install` && `npm run dev` inside the frontend directory. Now, head over to http://localhost:3000/
